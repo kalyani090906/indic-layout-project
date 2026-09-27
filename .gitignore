@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Virtual environment
+.venv/
+venv/
+
+# Model weights (large binaries, fetched/trained separately)
+*.pt
+*.pth
+*.onnx
+
+# Dataset (generated via build_subset.py, not checked in)
+dataset_root/
+
+# Training / evaluation outputs
+runs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
