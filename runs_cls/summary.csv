@@ -1,0 +1,5 @@
+﻿name,model,strategy,class_weights,dropout,l1,l2,bn,first_pool,augment,trainable_params,best_epoch,epochs_run,train_acc,val_acc,gap,train_loss,val_loss,val_macro_f1,test_acc,test_macro_f1,sec_per_epoch
+C0_cnn_lr1e-3,cnn,-,True,0.0,0.0,0.0,True,True,False,395801,5,10,48.21,35.45,12.77,1.6216,2.5822,0.2181,35.92,0.2216,544
+C0_cnn,cnn,-,True,0.0,0.0,0.0,True,True,False,395801,9,14,47.53,43.44,4.09,1.6802,1.9027,0.3276,42.87,0.3327,440
+C0_cnn_noweights,cnn,-,False,0.0,0.0,0.0,True,True,False,395801,8,13,50.9,51.39,-0.49,1.6128,1.6804,0.3442,50.04,0.3499,365
+G6_cnn_nobn,cnn,-,True,0.0,0.0,0.0,False,True,False,394841,26,30,41.75,42.82,-1.07,1.883,1.9336,0.3092,43.28,0.3257,373

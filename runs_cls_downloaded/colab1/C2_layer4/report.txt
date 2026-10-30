@@ -1,0 +1,37 @@
+{'name': 'C2_layer4', 'model': 'resnet50', 'strategy': 'layer4', 'data': '/content/crops', 'epochs': 15, 'patience': 3, 'batch_size': 64, 'lr': 0.001, 'backbone_lr': 0.0001, 'img_size': 224, 'no_class_weights': False, 'dropout': 0.0, 'l1': 0.0, 'l2': 0.0, 'no_bn': False, 'no_first_pool': False, 'augment': False, 'workers': 2, 'seed': 42}
+
+Best epoch: 3
+Test accuracy: 54.70%
+Test macro-F1: 0.4732
+
+                       precision    recall  f1-score   support
+
+        advertisement     0.7579    0.8276    0.7912        87
+               author     0.1456    0.3191    0.2000        47
+             dateline     0.2605    0.5962    0.3626       104
+               figure     0.8599    0.8215    0.8403       381
+       figure-caption     0.2292    0.2727    0.2491       121
+ first-level-question     0.3121    0.5345    0.3941       174
+                folio     0.4724    0.3142    0.3774       436
+               footer     0.4700    0.6406    0.5422       281
+             footnote     0.1514    0.4590    0.2276        61
+              formula     0.4831    0.6277    0.5460       137
+               header     0.6644    0.6144    0.6384       319
+             headline     0.2917    0.5563    0.3827       151
+              options     0.6550    0.7778    0.7111       144
+         ordered-list     0.2649    0.6617    0.3784       201
+                other     0.3876    0.1078    0.1686       464
+          page-number     0.7157    0.7103    0.7130       397
+            paragraph     0.9143    0.6006    0.7250      2133
+     placeholder-text     0.8171    0.8973    0.8553       224
+second-level-question     0.2588    0.3284    0.2895        67
+        section-title     0.2950    0.2861    0.2905       395
+              sidebar     0.4714    0.5661    0.5144       189
+     sub-ordered-list     0.2917    0.2258    0.2545        93
+    sub-section-title     0.0667    0.1395    0.0902        86
+                table     0.8690    0.7526    0.8066        97
+       unordered-list     0.3852    0.6420    0.4815        81
+
+             accuracy                         0.5470      6870
+            macro avg     0.4596    0.5312    0.4732      6870
+         weighted avg     0.6252    0.5470    0.5618      6870

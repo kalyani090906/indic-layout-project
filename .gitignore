@@ -24,3 +24,13 @@ runs/
 Thumbs.db
 .vscode/
 .idea/
+
+# Large or regenerable project data (rebuild with build_subset.py, make_crops.py, make_rating_clips.py)
+crops/
+crops.zip
+outputs/
+runs_det/
+kaggle_detector_upload/
+page_selection/language_thumbs/
+archive/dataset_root_old_leaked/
+archive/runs_old_detector/

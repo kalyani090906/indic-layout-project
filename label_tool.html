@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Reading Order Labeler</title>
+<style>
+  :root { --read: #1565c0; --special: #8e24aa; --skip: #9e9e9e; --badge: #d32f2f; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: #eceff1; color: #222; }
+  header { position: sticky; top: 0; z-index: 2; background: #fff; border-bottom: 1px solid #ccc;
+           padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  header select { max-width: 320px; }
+  button { padding: 6px 10px; border: 1px solid #999; border-radius: 4px; background: #f7f7f7; cursor: pointer; }
+  button.primary { background: #2e7d32; color: #fff; border-color: #2e7d32; font-weight: 600; }
+  .info { font-size: 13px; color: #555; }
+  .msg { font-weight: 600; }
+  main { display: flex; gap: 12px; padding: 12px; align-items: flex-start; }
+  .stage { position: relative; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+  .stage img { display: block; height: calc(100vh - 90px); width: auto; }
+  .stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  rect.box { fill: rgba(21,101,192,.06); stroke-width: 2; cursor: pointer; }
+  rect.box:hover { fill: rgba(255,193,7,.25); }
+  rect.read { stroke: var(--read); } rect.special { stroke: var(--special); }
+  rect.skipped { stroke: var(--skip); stroke-dasharray: 6 4; fill: rgba(0,0,0,.04); }
+  .badge rect { fill: var(--badge); } .badge text { fill: #fff; font-weight: 700; }
+  .cls { fill: #444; font-size: 11px; }
+  aside { width: 300px; font-size: 13px; line-height: 1.5; background: #fff; padding: 12px; border-radius: 6px; }
+  aside h3 { margin: 0 0 6px; font-size: 15px; }
+  kbd { background: #eee; border: 1px solid #bbb; border-radius: 3px; padding: 0 4px; font-size: 12px; }
+  .legend span { display: inline-block; width: 12px; height: 12px; margin-right: 4px; vertical-align: middle; border: 2px solid; }
+</style>
+</head>
+<body>
+<header>
+  <button onclick="go(-1)">◀ Prev</button>
+  <select id="pageSelect" onchange="load(this.value)"></select>
+  <button onclick="go(1)">Next ▶</button>
+  <span class="info" id="progress"></span>
+  <span class="info" id="pageInfo"></span>
+  <button onclick="undo()">Undo last <kbd>Z</kbd></button>
+  <button onclick="clearAll()">Clear numbers <kbd>C</kbd></button>
+  <button onclick="resetPrefill()">Reset to XY-cut</button>
+  <button class="primary" onclick="save()">Save &amp; next <kbd>Enter</kbd></button>
+  <span class="msg" id="msg"></span>
+</header>
+<main>
+  <div class="stage" id="stage">
+    <img id="pageImg" alt="page">
+    <svg id="overlay"></svg>
+  </div>
+  <aside>
+    <h3>How to label</h3>
+    <p>Numbers show the order the page should be <b>read aloud</b>. They start as the XY-cut guess.</p>
+    <p><b>If the guess is right:</b> just press <kbd>Enter</kbd>.</p>
+    <p><b>If it is wrong:</b> press <kbd>C</kbd> to clear, then click the boxes in reading order (1, 2, 3 …).</p>
+    <p><b>Click a numbered box</b> to take it out of the order (later numbers move up). Click it again to put it at the end.</p>
+    <p><b>Right-click</b> a box to switch it between <i>read</i> and <i>skip</i>.</p>
+    <h3>Rules</h3>
+    <ul>
+      <li>Columns: whole left column, then the next column.</li>
+      <li>A heading comes before the text under it.</li>
+      <li>Figure → its caption. Table → its caption.</li>
+      <li>Question → its options.</li>
+      <li>Sidebar / footnote: after the main text.</li>
+      <li>Headers, footers, page numbers, ads: skipped (grey dashed).</li>
+    </ul>
+    <div class="legend">
+      <div><span style="border-color:var(--read)"></span>read</div>
+      <div><span style="border-color:var(--special)"></span>special (figure, table, footnote …)</div>
+      <div><span style="border-color:var(--skip);border-style:dashed"></span>skipped</div>
+    </div>
+  </aside>
+</main>
+<script>
+let pages = [], current = null, boxes = [], prefill = [], started = 0;
+
+async function init() {
+  pages = await (await fetch('/api/pages')).json();
+  const first = pages.find(p => !p.done) || pages[0];
+  fillSelect();
+  load(first.page);
+}
+
+function fillSelect() {
+  const sel = document.getElementById('pageSelect');
+  sel.innerHTML = pages.map(p => `<option value="${p.page}">${p.done ? '✓' : '·'} ${p.page} (${p.language}, ${p.split})</option>`).join('');
+  if (current) sel.value = current.page;
+  const done = pages.filter(p => p.done).length;
+  document.getElementById('progress').textContent = `${done} / ${pages.length} done`;
+}
+
+async function load(id) {
+  current = await (await fetch('/api/page?id=' + encodeURIComponent(id))).json();
+  boxes = current.boxes.map(b => ({...b}));
+  prefill = current.boxes.map(b => b.order);
+  if (current.done) prefill = null;   // a saved page has no XY-cut copy here; Reset reloads it below
+  started = Date.now();
+  const meta = pages.find(p => p.page === id);
+  document.getElementById('pageInfo').textContent =
+    `${meta.language} · ${meta.split}${current.done ? ' · saved before' : ' · XY-cut guess'}${meta.reason ? ' · CHECK: ' + meta.reason : ''}`;
+  document.getElementById('pageSelect').value = id;
+  const img = document.getElementById('pageImg');
+  img.src = '/image?id=' + encodeURIComponent(id);
+  document.getElementById('overlay').setAttribute('viewBox', `0 0 ${current.width} ${current.height}`);
+  msg('');
+  draw();
+}
+
+function draw() {
+  const W = current.width, H = current.height, svg = document.getElementById('overlay');
+  const fs = Math.max(12, W / 45);
+  const area = b => (b.bbox[2] - b.bbox[0]) * (b.bbox[3] - b.bbox[1]);
+  // biggest first, so a smaller box is drawn on top and gets the click
+  const drawOrder = boxes.map((b, i) => i).sort((a, c) => area(boxes[c]) - area(boxes[a]));
+  let rects = '', badges = '';
+  drawOrder.forEach(i => {
+    const b = boxes[i];
+    const [x1, y1, x2, y2] = b.bbox, x = x1 * W, y = y1 * H, w = (x2 - x1) * W, h = (y2 - y1) * H;
+    const kind = b.order == null ? 'skipped' : (b.role === 'special' ? 'special' : 'read');
+    rects += `<rect class="box ${kind}" data-i="${i}" x="${x}" y="${y}" width="${w}" height="${h}"><title>${b.class}</title></rect>
+            <text class="cls" pointer-events="none" x="${x + w - 3}" y="${y + h - 3}" text-anchor="end" font-size="${fs * 0.6}">${b.class}</text>`;
+    if (b.order != null)   // number tags go on top of every box; clicking a tag selects its box
+      badges += `<g class="badge" data-i="${i}" style="cursor:pointer"><rect x="${x}" y="${y}" width="${fs * 1.6}" height="${fs * 1.2}" rx="3"/>
+       <text x="${x + fs * 0.8}" y="${y + fs * 0.95}" font-size="${fs}" text-anchor="middle">${b.order}</text></g>`;
+  });
+  svg.innerHTML = rects + badges;
+  svg.querySelectorAll('rect.box, g.badge').forEach(r => {
+    r.addEventListener('click', () => clickBox(+r.dataset.i));
+    r.addEventListener('contextmenu', e => { e.preventDefault(); toggleSkip(+r.dataset.i); });
+  });
+}
+
+const maxOrder = () => Math.max(0, ...boxes.map(b => b.order || 0));
+
+function removeFromOrder(b) {
+  const n = b.order; b.order = null;
+  boxes.forEach(o => { if (o.order != null && o.order > n) o.order--; });
+}
+
+function clickBox(i) {
+  const b = boxes[i];
+  if (b.order == null) { b.order = maxOrder() + 1; b.role = b.role === 'skip' ? 'read' : b.role; }
+  else removeFromOrder(b);
+  draw();
+}
+
+function toggleSkip(i) {
+  const b = boxes[i];
+  if (b.order != null) { removeFromOrder(b); b.role = 'skip'; }
+  else { b.role = (b.role === 'skip') ? 'read' : b.role; b.order = maxOrder() + 1; }
+  draw();
+}
+
+function undo() { const b = boxes.find(o => o.order === maxOrder() && o.order); if (b) { b.order = null; draw(); } }
+function clearAll() { boxes.forEach(b => b.order = null); draw(); }
+async function resetPrefill() {
+  if (prefill) { boxes.forEach((b, i) => b.order = prefill[i]); draw(); }
+  else msg('This page was saved before; Reset only works on new pages.');
+}
+
+async function save() {
+  const nRead = boxes.filter(b => b.order != null).length;
+  if (nRead === 0 && !confirm('No box has a number. Save anyway (whole page skipped)?')) return;
+  const res = await fetch('/api/save', {method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({page: current.page, boxes, seconds: Math.round((Date.now() - started) / 1000)})});
+  const out = await res.json();
+  if (!out.ok) { msg('Not saved: ' + out.error); return; }
+  pages.find(p => p.page === current.page).done = true;
+  fillSelect();
+  const next = pages.find(p => !p.done);
+  if (next) load(next.page); else msg('All pages done!');
+}
+
+function go(step) {
+  const i = pages.findIndex(p => p.page === current.page);
+  const j = Math.min(pages.length - 1, Math.max(0, i + step));
+  load(pages[j].page);
+}
+
+function msg(t) { document.getElementById('msg').textContent = t; }
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.key === 'Enter') { e.preventDefault(); save(); }
+  else if (e.key === 'z' || e.key === 'Z' || e.key === 'Backspace') { e.preventDefault(); undo(); }
+  else if (e.key === 'c' || e.key === 'C') clearAll();
+  else if (e.key === 'ArrowRight') go(1);
+  else if (e.key === 'ArrowLeft') go(-1);
+});
+
+init();
+</script>
+</body>
+</html>

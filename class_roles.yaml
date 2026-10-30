@@ -1,0 +1,51 @@
+# What the reading-aloud pipeline does with each of the 42 IndicDLP classes.
+#
+#   read     - part of the main text: OCR it and read it in reading order
+#   skip     - page furniture or noise: gets no reading-order number, never read
+#   special  - read, but handled differently (said with a short spoken label, or read at the end)
+#
+# DRAFT - check every line and change anything you disagree with.
+
+roles:
+  advertisement: skip            # not part of the content
+  answer: read
+  author: read
+  chapter-title: read
+  contact-info: skip             # phone numbers / addresses; mostly in ads and forms
+  dateline: read                 # place + date at the start of a news story
+  figure: special                # say "Figure", then read its caption
+  figure-caption: special        # read right after its figure
+  first-level-question: read
+  flag: skip                     # newspaper nameplate / logo at the top
+  folio: skip                    # running title repeated on every page (e.g. "M.A Semester 4 GUJ 512")
+  footer: skip
+  footnote: special              # read at the end of the page, after the main text
+  formula: special               # say "formula" (OCR cannot read maths)
+  header: skip
+  headline: read
+  index: skip                    # long lists of page numbers
+  jumpline: skip                 # "continued on page 5"
+  options: read                  # multiple-choice options, right after their question
+  ordered-list: read
+  page-number: skip
+  paragraph: read
+  placeholder-text: skip         # blank fill-in lines on forms ("Branch: ______")
+  quote: read
+  reference: special             # bibliography: read at the end, or skip for the demo
+  second-level-question: read
+  section-title: read
+  sidebar: special               # boxed side content: read after the main text
+  sub-headline: read
+  sub-ordered-list: read
+  sub-section-title: read
+  subsub-ordered-list: read
+  subsub-section-title: read
+  sub-unordered-list: read
+  subsub-headline: read
+  subsub-unordered-list: read
+  table: special                 # say "Table", then read the table caption (cells are out of scope)
+  table-caption: special         # read right after "Table"
+  table-of-contents: skip
+  third-level-question: read
+  unordered-list: read
+  website-link: skip

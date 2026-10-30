@@ -4,7 +4,14 @@ import yaml
 import os
 
 # ---- Config ----
-N_TOTAL = 5000          # start small to test the pipeline; we'll scale this up later
+# Each local split is drawn from the matching official IndicDLP split, so our
+# val/test pages were never seen by the released checkpoint during training.
+SPLITS = {
+    # local name: (official HF split, number of images)
+    "train": ("train", 4000),
+    "val": ("validation", 500),
+    "test": ("test", 500),
+}
 SEED = 42
 BUFFER_SIZE = 500
 OUT_DIR = "dataset_root"
@@ -14,26 +21,15 @@ with open("indic.yaml", "r") as f:
     class_map = yaml.safe_load(f)
 class_names = class_map["names"]
 
-# ---- Load and shuffle the streaming dataset ----
-ds = load_dataset("ai4bharat/indicdlp", split="train", streaming=True)
-ds_shuffled = ds.shuffle(seed=SEED, buffer_size=BUFFER_SIZE)
-
-# ---- Pull N examples ----
-samples = list(tqdm(ds_shuffled.take(N_TOTAL), total=N_TOTAL, desc="Downloading"))
-
-# ---- Split 80:10:10 ----
-n_train = int(0.8 * N_TOTAL)
-n_val = int(0.1 * N_TOTAL)
-# whatever's left goes to test, avoids rounding gaps
-splits = {
-    "train": samples[:n_train],
-    "val": samples[n_train:n_train + n_val],
-    "test": samples[n_train + n_val:]
-}
-
 # ---- Save images + YOLO-format labels ----
-for split_name, split_samples in splits.items():
-    for i, sample in enumerate(tqdm(split_samples, desc=f"Saving {split_name}")):
+for split_name, (hf_split, n) in SPLITS.items():
+    ds = load_dataset("ai4bharat/indicdlp", split=hf_split, streaming=True)
+    ds_shuffled = ds.shuffle(seed=SEED, buffer_size=BUFFER_SIZE)
+
+    os.makedirs(os.path.join(OUT_DIR, "images", split_name), exist_ok=True)
+    os.makedirs(os.path.join(OUT_DIR, "labels", split_name), exist_ok=True)
+
+    for i, sample in enumerate(tqdm(ds_shuffled.take(n), total=n, desc=f"Saving {split_name} (from {hf_split})")):
         img = sample["image"]
         img_w, img_h = img.size
 
@@ -46,6 +42,12 @@ for split_name, split_samples in splits.items():
         label_filename = f"{split_name}_{i:05d}.txt"
         label_path = os.path.join(OUT_DIR, "labels", split_name, label_filename)
 
+        # A few IndicDLP samples already have boxes in 0-1 units instead of pixels.
+        # Dividing those by the image size again would squash every box into the top-left corner.
+        already_normalized = all(v <= 1.0 for bbox in sample["bboxes"] for v in bbox)
+        if already_normalized:
+            img_w, img_h = 1.0, 1.0
+
         with open(label_path, "w") as lf:
             for bbox, cat_id in zip(sample["bboxes"], sample["category_ids"]):
                 x, y, w, h = bbox
@@ -57,4 +59,4 @@ for split_name, split_samples in splits.items():
                 h_norm = h / img_h
                 lf.write(f"{cat_id} {x_center} {y_center} {w_norm} {h_norm}\n")
 
-print("Done. Saved", N_TOTAL, "images across train/val/test.")
+print("Done. Saved", sum(n for _, n in SPLITS.values()), "images across train/val/test.")

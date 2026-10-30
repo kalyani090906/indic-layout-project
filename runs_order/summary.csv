@@ -1,0 +1,7 @@
+name,model,setting,seeds,epochs_run,val_tau,test_tau,test_tau_multi,test_pairwise,test_exact,xycut_test_tau,diff_ci_low,diff_ci_high
+R1_scratch,transformer,"d 64, layers 2, heads 4, dropout 0.1, l2 0.0001, from scratch",5,85.6,0.9488,0.9257,0.8431,0.9628,0.6095,0.879,-0.0536,0.1679
+R2_pretrain_finetune,transformer,"d 64, layers 2, heads 4, dropout 0.1, l2 0.0001, pre-train 20 ep on XY-cut",5,31.6,0.9524,0.9541,0.883,0.977,0.7429,0.879,-0.0264,0.1913
+R3_pretrain_only,transformer,"d 64, layers 2, heads 4, dropout 0.1, l2 0.0001, pre-train 20 ep on XY-cut, no fine-tune",1,20.0,0.947,0.9074,0.6942,0.9537,0.6667,0.879,-0.0467,0.1113
+R4_pretrain_head,transformer,"d 64, layers 2, heads 4, dropout 0.1, l2 0.0001, pre-train 20 ep on XY-cut, encoder frozen",5,300.0,0.9586,0.9212,0.8855,0.9606,0.6667,0.879,-0.0832,0.1739
+P1_mlp,pairwise MLP,"hidden 64, dropout 0.2, l2 0.0001",5,110.0,0.9715,0.9761,0.9964,0.988,0.7619,0.879,-0.0093,0.2261
+P2_mlp_xycut,pairwise MLP,"hidden 64, dropout 0.2, l2 0.0001, xy-cut feature",5,45.0,0.979,0.9805,0.9906,0.9902,0.8095,0.879,-0.0006,0.2254

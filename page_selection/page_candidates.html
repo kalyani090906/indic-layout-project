@@ -1,0 +1,347 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Page Picker</title>
+<style>
+  body { font-family: sans-serif; margin: 16px; background: #fafafa; }
+  .bar { position: sticky; top: 0; background: #fff; padding: 10px; border-bottom: 1px solid #ccc; z-index: 1; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 12px; }
+  .card { background: #fff; border: 2px solid #ddd; border-radius: 6px; padding: 6px; font-size: 13px; cursor: pointer; }
+  .card:has(input:checked) { border-color: #2a7; background: #efe; }
+  .card img { width: 100%; height: 300px; object-fit: contain; background: #eee; }
+  .tags { color: #555; margin-top: 4px; }
+  .hindi .tags { color: #a50; } .malayalam .tags { color: #05a; }
+</style></head><body>
+<div class="bar">
+  <b>Pick ~60 Hindi + ~60 Malayalam pages</b> (mix single/multi-column, tables, figures; skip Marathi).
+  Selected: <b id="count">0</b> &nbsp; <button onclick="save()">Save list</button>
+</div>
+<div class="grid">
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00380.png">
+    <div><input type="checkbox" value="val/val_00380.png"> val/val_00380.png</div>
+    <div class="tags">hindi · multi-column · 99 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00040.png">
+    <div><input type="checkbox" value="val/val_00040.png"> val/val_00040.png</div>
+    <div class="tags">hindi · multi-column · 74 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00263.png">
+    <div><input type="checkbox" value="val/val_00263.png"> val/val_00263.png</div>
+    <div class="tags">hindi · multi-column · 18 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00459.png">
+    <div><input type="checkbox" value="val/val_00459.png"> val/val_00459.png</div>
+    <div class="tags">hindi · multi-column · 16 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00426.png">
+    <div><input type="checkbox" value="val/val_00426.png"> val/val_00426.png</div>
+    <div class="tags">hindi · multi-column · 13 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00307.png">
+    <div><input type="checkbox" value="val/val_00307.png"> val/val_00307.png</div>
+    <div class="tags">hindi · multi-column · 8 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00255.png">
+    <div><input type="checkbox" value="test/test_00255.png"> test/test_00255.png</div>
+    <div class="tags">hindi · single-column · 15 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00459.png">
+    <div><input type="checkbox" value="test/test_00459.png"> test/test_00459.png</div>
+    <div class="tags">hindi · single-column · 15 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00091.png">
+    <div><input type="checkbox" value="val/val_00091.png"> val/val_00091.png</div>
+    <div class="tags">hindi · single-column · 15 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00085.png">
+    <div><input type="checkbox" value="test/test_00085.png"> test/test_00085.png</div>
+    <div class="tags">hindi · single-column · 14 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00065.png">
+    <div><input type="checkbox" value="test/test_00065.png"> test/test_00065.png</div>
+    <div class="tags">hindi · single-column · 12 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00278.png">
+    <div><input type="checkbox" value="test/test_00278.png"> test/test_00278.png</div>
+    <div class="tags">hindi · single-column · 12 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00300.png">
+    <div><input type="checkbox" value="val/val_00300.png"> val/val_00300.png</div>
+    <div class="tags">hindi · single-column · 12 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00078.png">
+    <div><input type="checkbox" value="test/test_00078.png"> test/test_00078.png</div>
+    <div class="tags">hindi · single-column · 11 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00171.png">
+    <div><input type="checkbox" value="test/test_00171.png"> test/test_00171.png</div>
+    <div class="tags">hindi · single-column · 11 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00205.png">
+    <div><input type="checkbox" value="test/test_00205.png"> test/test_00205.png</div>
+    <div class="tags">hindi · single-column · 11 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00171.png">
+    <div><input type="checkbox" value="val/val_00171.png"> val/val_00171.png</div>
+    <div class="tags">hindi · single-column · 11 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00205.png">
+    <div><input type="checkbox" value="val/val_00205.png"> val/val_00205.png</div>
+    <div class="tags">hindi · single-column · 11 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00085.png">
+    <div><input type="checkbox" value="val/val_00085.png"> val/val_00085.png</div>
+    <div class="tags">hindi · single-column · 10 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00091.png">
+    <div><input type="checkbox" value="test/test_00091.png"> test/test_00091.png</div>
+    <div class="tags">hindi · single-column · 9 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00225.png">
+    <div><input type="checkbox" value="test/test_00225.png"> test/test_00225.png</div>
+    <div class="tags">hindi · single-column · 9 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00298.png">
+    <div><input type="checkbox" value="test/test_00298.png"> test/test_00298.png</div>
+    <div class="tags">hindi · single-column · 9 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00255.png">
+    <div><input type="checkbox" value="val/val_00255.png"> val/val_00255.png</div>
+    <div class="tags">hindi · single-column · 9 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00428.png">
+    <div><input type="checkbox" value="val/val_00428.png"> val/val_00428.png</div>
+    <div class="tags">hindi · single-column · 9 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00114.png">
+    <div><input type="checkbox" value="test/test_00114.png"> test/test_00114.png</div>
+    <div class="tags">hindi · single-column · 8 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00427.png">
+    <div><input type="checkbox" value="val/val_00427.png"> val/val_00427.png</div>
+    <div class="tags">hindi · single-column · 8 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00109.png">
+    <div><input type="checkbox" value="test/test_00109.png"> test/test_00109.png</div>
+    <div class="tags">hindi · single-column · 7 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00177.png">
+    <div><input type="checkbox" value="test/test_00177.png"> test/test_00177.png</div>
+    <div class="tags">hindi · single-column · 7 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00230.png">
+    <div><input type="checkbox" value="val/val_00230.png"> val/val_00230.png</div>
+    <div class="tags">hindi · single-column · 7 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00241.png">
+    <div><input type="checkbox" value="val/val_00241.png"> val/val_00241.png</div>
+    <div class="tags">hindi · single-column · 7 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00323.png">
+    <div><input type="checkbox" value="val/val_00323.png"> val/val_00323.png</div>
+    <div class="tags">hindi · single-column · 7 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00200.png">
+    <div><input type="checkbox" value="test/test_00200.png"> test/test_00200.png</div>
+    <div class="tags">hindi · single-column · 6 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00122.png">
+    <div><input type="checkbox" value="val/val_00122.png"> val/val_00122.png</div>
+    <div class="tags">hindi · single-column · 6 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00298.png">
+    <div><input type="checkbox" value="val/val_00298.png"> val/val_00298.png</div>
+    <div class="tags">hindi · single-column · 6 boxes · figure</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00496.png">
+    <div><input type="checkbox" value="val/val_00496.png"> val/val_00496.png</div>
+    <div class="tags">hindi · single-column · 6 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00065.png">
+    <div><input type="checkbox" value="val/val_00065.png"> val/val_00065.png</div>
+    <div class="tags">hindi · single-column · 5 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00241.png">
+    <div><input type="checkbox" value="test/test_00241.png"> test/test_00241.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00428.png">
+    <div><input type="checkbox" value="test/test_00428.png"> test/test_00428.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00455.png">
+    <div><input type="checkbox" value="test/test_00455.png"> test/test_00455.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00006.png">
+    <div><input type="checkbox" value="val/val_00006.png"> val/val_00006.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00127.png">
+    <div><input type="checkbox" value="val/val_00127.png"> val/val_00127.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00278.png">
+    <div><input type="checkbox" value="val/val_00278.png"> val/val_00278.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00352.png">
+    <div><input type="checkbox" value="val/val_00352.png"> val/val_00352.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00375.png">
+    <div><input type="checkbox" value="val/val_00375.png"> val/val_00375.png</div>
+    <div class="tags">hindi · single-column · 4 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00066.png">
+    <div><input type="checkbox" value="test/test_00066.png"> test/test_00066.png</div>
+    <div class="tags">hindi · single-column · 3 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00496.png">
+    <div><input type="checkbox" value="test/test_00496.png"> test/test_00496.png</div>
+    <div class="tags">hindi · single-column · 3 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/test/test_00499.png">
+    <div><input type="checkbox" value="test/test_00499.png"> test/test_00499.png</div>
+    <div class="tags">hindi · single-column · 3 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00177.png">
+    <div><input type="checkbox" value="val/val_00177.png"> val/val_00177.png</div>
+    <div class="tags">hindi · single-column · 3 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00351.png">
+    <div><input type="checkbox" value="val/val_00351.png"> val/val_00351.png</div>
+    <div class="tags">hindi · single-column · 3 boxes</div>
+  </label>
+  <label class="card hindi">
+    <img loading="lazy" src="../dataset_root/images/val/val_00475.png">
+    <div><input type="checkbox" value="val/val_00475.png"> val/val_00475.png</div>
+    <div class="tags">hindi · single-column · 3 boxes</div>
+  </label>
+  <label class="card malayalam">
+    <img loading="lazy" src="../dataset_root/images/test/test_00358.png">
+    <div><input type="checkbox" value="test/test_00358.png"> test/test_00358.png</div>
+    <div class="tags">malayalam · single-column · 5 boxes · figure</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/test/test_00307.png">
+    <div><input type="checkbox" value="test/test_00307.png"> test/test_00307.png</div>
+    <div class="tags">unsure · single-column · 17 boxes · figure · hi:1 mr:0</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/test/test_00126.png">
+    <div><input type="checkbox" value="test/test_00126.png"> test/test_00126.png</div>
+    <div class="tags">unsure · single-column · 14 boxes · hi:9 mr:5</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00118.png">
+    <div><input type="checkbox" value="val/val_00118.png"> val/val_00118.png</div>
+    <div class="tags">unsure · single-column · 14 boxes · figure · hi:1 mr:0</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00041.png">
+    <div><input type="checkbox" value="val/val_00041.png"> val/val_00041.png</div>
+    <div class="tags">unsure · single-column · 10 boxes · hi:0 mr:0</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00365.png">
+    <div><input type="checkbox" value="val/val_00365.png"> val/val_00365.png</div>
+    <div class="tags">unsure · single-column · 10 boxes · hi:0 mr:0</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/test/test_00250.png">
+    <div><input type="checkbox" value="test/test_00250.png"> test/test_00250.png</div>
+    <div class="tags">unsure · single-column · 9 boxes · hi:0 mr:2</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00003.png">
+    <div><input type="checkbox" value="val/val_00003.png"> val/val_00003.png</div>
+    <div class="tags">unsure · single-column · 8 boxes · hi:7 mr:6</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00096.png">
+    <div><input type="checkbox" value="val/val_00096.png"> val/val_00096.png</div>
+    <div class="tags">unsure · single-column · 8 boxes · hi:8 mr:12</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/test/test_00197.png">
+    <div><input type="checkbox" value="test/test_00197.png"> test/test_00197.png</div>
+    <div class="tags">unsure · single-column · 7 boxes · table · figure · hi:0 mr:2</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/test/test_00006.png">
+    <div><input type="checkbox" value="test/test_00006.png"> test/test_00006.png</div>
+    <div class="tags">unsure · single-column · 4 boxes · table · figure · hi:0 mr:0</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00250.png">
+    <div><input type="checkbox" value="val/val_00250.png"> val/val_00250.png</div>
+    <div class="tags">unsure · single-column · 4 boxes · hi:2 mr:2</div>
+  </label>
+  <label class="card unsure">
+    <img loading="lazy" src="../dataset_root/images/val/val_00490.png">
+    <div><input type="checkbox" value="val/val_00490.png"> val/val_00490.png</div>
+    <div class="tags">unsure · single-column · 4 boxes · figure · hi:1 mr:0</div>
+  </label>
+</div>
+<script>
+  const boxes = document.querySelectorAll('input[type=checkbox]');
+  boxes.forEach(b => b.addEventListener('change', () => {
+    document.getElementById('count').textContent = [...boxes].filter(x => x.checked).length;
+  }));
+  function save() {
+    const picked = [...boxes].filter(x => x.checked).map(x => x.value).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([picked + '\n'], {type: 'text/plain'}));
+    a.download = 'selected_pages.txt';
+    a.click();
+  }
+</script>
+</body></html>

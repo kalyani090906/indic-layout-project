@@ -1,0 +1,37 @@
+{'name': 'G4_elastic', 'model': 'resnet50', 'strategy': 'layer4', 'data': '/kaggle/input/datasets/kalyanideepu/indic-crops/crops/crops', 'epochs': 15, 'patience': 3, 'batch_size': 64, 'lr': 0.001, 'backbone_lr': 0.0001, 'img_size': 224, 'no_class_weights': False, 'dropout': 0.0, 'l1': 1e-06, 'l2': 0.01, 'no_bn': False, 'no_first_pool': False, 'augment': False, 'workers': 4, 'seed': 42}
+
+Best epoch: 5
+Test accuracy: 54.64%
+Test macro-F1: 0.4858
+
+                       precision    recall  f1-score   support
+
+        advertisement     0.7727    0.7816    0.7771        87
+               author     0.1700    0.3617    0.2313        47
+             dateline     0.2153    0.5962    0.3163       104
+               figure     0.8938    0.7953    0.8417       381
+       figure-caption     0.2815    0.3140    0.2969       121
+ first-level-question     0.4118    0.4425    0.4266       174
+                folio     0.3483    0.4450    0.3907       436
+               footer     0.4909    0.5765    0.5303       281
+             footnote     0.1350    0.6066    0.2209        61
+              formula     0.4886    0.3139    0.3822       137
+               header     0.6084    0.6332    0.6206       319
+             headline     0.5091    0.3709    0.4291       151
+              options     0.6686    0.8125    0.7335       144
+         ordered-list     0.2667    0.5572    0.3607       201
+                other     0.3949    0.1336    0.1997       464
+          page-number     0.7811    0.6650    0.7184       397
+            paragraph     0.9428    0.5795    0.7178      2133
+     placeholder-text     0.7500    0.9107    0.8226       224
+second-level-question     0.4478    0.4478    0.4478        67
+        section-title     0.2826    0.4278    0.3404       395
+              sidebar     0.4211    0.5926    0.4923       189
+     sub-ordered-list     0.3194    0.4946    0.3882        93
+    sub-section-title     0.0769    0.0698    0.0732        86
+                table     0.7961    0.8454    0.8200        97
+       unordered-list     0.4867    0.6790    0.5670        81
+
+             accuracy                         0.5464      6870
+            macro avg     0.4784    0.5381    0.4858      6870
+         weighted avg     0.6370    0.5464    0.5658      6870

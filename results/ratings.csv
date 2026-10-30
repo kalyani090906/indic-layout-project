@@ -1,0 +1,7 @@
+time,rater,page,language,better,clarity_A,clarity_B,method_A,method_B,comment
+2026-10-30 22:02:31,kalyani,test/test_00171.png,hindi,both fine,3,3,xy-cut,mlp,
+2026-10-30 22:04:39,kalyani,val/val_00078.png,hindi,both fine,2,2,mlp,xy-cut,both read the same way ...but it feels like both are a little unclear especially the start
+2026-10-30 22:05:21,kalyani,val/val_00230.png,hindi,B,1,3,xy-cut,mlp,
+2026-10-30 22:11:51,kalyani,val/val_00067.png,tamil,both fine,3,3,mlp,xy-cut,B feels slighty better
+2026-10-30 22:42:55,kalyani,val/val_00140.png,tamil,B,2,3,mlp,xy-cut,
+2026-10-30 22:44:10,kalyani,val/val_00208.png,tamil,both fine,3,3,xy-cut,mlp,

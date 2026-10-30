@@ -1,0 +1,37 @@
+{'name': 'C0_cnn', 'model': 'cnn', 'strategy': 'full', 'data': 'crops', 'epochs': 30, 'patience': 5, 'batch_size': 64, 'lr': 0.001, 'backbone_lr': 0.0001, 'img_size': 128, 'no_class_weights': False, 'dropout': 0.0, 'l1': 0.0, 'l2': 0.0, 'no_bn': False, 'no_first_pool': False, 'augment': False, 'workers': 4, 'seed': 42}
+
+Best epoch: 5
+Test accuracy: 35.92%
+Test macro-F1: 0.2216
+
+                       precision    recall  f1-score   support
+
+        advertisement     0.5556    0.6897    0.6154        87
+               author     0.0400    0.4043    0.0728        47
+             dateline     0.1433    0.4712    0.2197       104
+               figure     0.7566    0.6772    0.7147       381
+       figure-caption     0.0446    0.7603    0.0843       121
+ first-level-question     1.0000    0.0057    0.0114       174
+                folio     0.2817    0.0459    0.0789       436
+               footer     0.3750    0.0107    0.0208       281
+             footnote     0.0000    0.0000    0.0000        61
+              formula     0.3604    0.5839    0.4457       137
+               header     0.7214    0.3166    0.4401       319
+             headline     0.5789    0.0728    0.1294       151
+              options     0.8696    0.1389    0.2395       144
+         ordered-list     0.0000    0.0000    0.0000       201
+                other     0.0940    0.0302    0.0457       464
+          page-number     0.4473    0.8438    0.5846       397
+            paragraph     0.9102    0.5799    0.7085      2133
+     placeholder-text     1.0000    0.0179    0.0351       224
+second-level-question     0.0983    0.5075    0.1646        67
+        section-title     0.2664    0.1646    0.2034       395
+              sidebar     0.7500    0.0159    0.0311       189
+     sub-ordered-list     0.2349    0.3763    0.2893        93
+    sub-section-title     0.0000    0.0000    0.0000        86
+                table     0.5455    0.2474    0.3404        97
+       unordered-list     0.2727    0.0370    0.0652        81
+
+             accuracy                         0.3592      6870
+            macro avg     0.4139    0.2799    0.2216      6870
+         weighted avg     0.5808    0.3592    0.3777      6870
