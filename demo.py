@@ -2,6 +2,7 @@
 Demo: read a Hindi or Tamil page aloud in the right order.
 
     python demo.py        then open http://127.0.0.1:7860
+    python demo.py --share   also prints a public link for listeners on other devices (works while this runs)
 
 Tab "Read a page":     upload a page (or click an example), see the numbered reading order,
                        the OCR text per box, and listen to it.
@@ -13,6 +14,7 @@ Tab "Listening test":  for a listener (e.g. a Tamil speaker). Each page has two 
 
 import csv
 import os
+import sys
 import time
 
 import gradio as gr
@@ -131,7 +133,8 @@ with gr.Blocks(title="Indic page reader") as demo:
                 clear_a = gr.Slider(1, 5, value=3, step=1, label="How clear is A?")
                 clip_b = gr.Audio(label="Version B")
                 clear_b = gr.Slider(1, 5, value=3, step=1, label="How clear is B?")
-                better = gr.Radio(["A", "B", "both fine", "both wrong"], label="Which reads the page in the better order?")
+                better = gr.Radio(["A", "B", "both fine", "both wrong", "I don't know this language"],
+                                  label="Which reads the page in the better order?")
                 comment = gr.Textbox(label="Comment (optional)")
                 next_btn = gr.Button("Save & next", variant="primary")
         demo.load(show, [index], [page_img, clip_a, clip_b, status])
@@ -139,4 +142,4 @@ with gr.Blocks(title="Indic page reader") as demo:
                        [index, page_img, clip_a, clip_b, status, better, clear_a, clear_b, comment])
 
 if __name__ == "__main__":
-    demo.launch(allowed_paths=[os.path.abspath(CLIP_DIR)])   # let Gradio serve the listening-test clips
+    demo.launch(allowed_paths=[os.path.abspath(CLIP_DIR)], share="--share" in sys.argv)   # let Gradio serve the listening-test clips

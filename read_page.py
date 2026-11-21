@@ -80,7 +80,9 @@ def ocr_box(image, box, language):
     x1, y1, x2, y2 = box["bbox"]
     pad = 4
     crop = image.crop((max(0, x1 * W - pad), max(0, y1 * H - pad), min(W, x2 * W + pad), min(H, y2 * H + pad)))
-    if crop.height < 60:   # Tesseract reads small text better when it is bigger
+    if W < 1000:           # low-resolution page (e.g. a web image): all its text is too small for Tesseract
+        crop = crop.resize((crop.width * 3, crop.height * 3), Image.LANCZOS)
+    elif crop.height < 60:   # Tesseract reads small text better when it is bigger
         crop = crop.resize((crop.width * 2, crop.height * 2), Image.LANCZOS)
     buf = io.BytesIO()
     crop.save(buf, format="PNG")

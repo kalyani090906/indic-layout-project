@@ -1,0 +1,25 @@
+pages,group,n,raster,raster_perfect,xy-cut,xy-cut_perfect,mlp,mlp_perfect,P1,P1_perfect,transformer,transformer_perfect
+test (21 pages),all pages,21,0.826,14,0.879,17,0.981,17,0.976,14.0,0.954,14.0
+val + test (37 pages),all pages,37,0.863,27,0.913,31,0.98,31,,,,
+test (21 pages),columns = multi,6,0.405,0,0.577,2,0.992,5,0.996,4.0,0.883,1.0
+val + test (37 pages),columns = multi,9,0.47,1,0.641,3,0.965,7,,,,
+test (21 pages),columns = single,15,0.994,14,1.0,15,0.977,12,0.968,10.0,0.983,13.0
+val + test (37 pages),columns = single,28,0.99,26,1.0,28,0.986,24,,,,
+test (21 pages),language = hindi,12,0.93,10,0.968,11,0.983,11,0.973,9.0,0.953,8.0
+val + test (37 pages),language = hindi,20,0.949,17,0.968,18,0.977,18,,,,
+test (21 pages),language = tamil,9,0.686,4,0.76,6,0.978,6,0.98,5.0,0.956,6.0
+val + test (37 pages),language = tamil,17,0.763,10,0.848,13,0.985,13,,,,
+test (21 pages),size = 11+ boxes,5,0.598,2,0.803,4,0.94,2,0.935,1.0,0.833,1.0
+val + test (37 pages),size = 11+ boxes,10,0.757,6,0.859,8,0.964,6,,,,
+test (21 pages),size = 2-6 boxes,6,0.911,5,0.911,5,1.0,6,1.0,6.0,1.0,6.0
+val + test (37 pages),size = 2-6 boxes,10,0.947,9,0.947,9,1.0,10,,,,
+test (21 pages),size = 7-10 boxes,10,0.888,7,0.898,8,0.99,9,0.982,7.0,0.987,7.0
+val + test (37 pages),size = 7-10 boxes,17,0.877,12,0.924,14,0.979,15,,,,
+test (21 pages),table = False,19,0.831,13,0.866,15,0.979,15,0.974,13.0,0.964,13.0
+val + test (37 pages),table = False,32,0.87,24,0.912,27,0.979,27,,,,
+test (21 pages),table = True,2,0.772,1,1.0,2,1.0,2,0.994,1.0,0.857,1.0
+val + test (37 pages),table = True,5,0.824,3,0.915,4,0.988,4,,,,
+test (21 pages),figure = False,10,0.81,7,0.81,7,0.97,7,0.969,7.0,0.958,7.0
+val + test (37 pages),figure = False,22,0.859,17,0.894,18,0.984,18,,,,
+test (21 pages),figure = True,11,0.839,7,0.942,10,0.991,10,0.983,7.0,0.951,7.0
+val + test (37 pages),figure = True,15,0.87,10,0.939,13,0.976,13,,,,

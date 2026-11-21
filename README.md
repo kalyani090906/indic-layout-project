@@ -39,9 +39,13 @@ Tesseract with `hin` and `tam` must be installed in `C:\Program Files\Tesseract-
 |---|---|
 | `train_detector.py` | YOLO transfer study (scratch / COCO / DocLayNet, full / frozen backbone) and augmentation study |
 | `notebooks/kaggle_detector.ipynb` | runs it on Kaggle; results come back as `runs_det_part1.zip`, `runs_det_part2.zip` |
+| `compare_detectors.py` | merges both parts → `results/detector_runs.csv`, `detector_scores.png`, `detector_transfer_curves.png`, `detector_augmentation_curves.png` |
+| `runs_det_downloaded/` | results from Kaggle (`part1` = D0–D6, `part2` = A1–A4) |
 | `kaggle_detector_upload/` | the files uploaded to Kaggle as a dataset |
 | `yolov10x_indicdlp.pt` | released IndicDLP detector (D0), also used by the reading pipeline |
 | `yolov8n-doclaynet.pt` | YOLOv8n pre-trained on DocLayNet (start point for D4 / D5) |
+
+Kaggle rebuilds the subset with `build_subset.py`. It has the same split sizes and comes from the same official splits, but it contains different pages from the laptop's `dataset_root/` (same file names, different pages; label checksum `6e025ff7dad53e196ea3e4d3fc51dca5`). Detector results are comparable with each other, but not page for page with the rest of the project.
 
 ### 4. Reading-order dataset (Hindi + Tamil, 120 pages labeled by hand)
 | File | What it does |
@@ -68,9 +72,16 @@ Tesseract with `hin` and `tam` must be installed in `C:\Program Files\Tesseract-
 | `make_rating_clips.py` | A/B audio clips (MLP vs XY-cut) → `outputs/rating_clips/` |
 | `demo.py` | Gradio demo: read a page + listening test (answers in `results/ratings.csv`) |
 
+### 7. Error analysis (asked for in the review)
+| File | What it does |
+|---|---|
+| `error_analysis_classifier.py` | runs the top 3 classifiers (C4, C5, G2b) on the test crops: per-section F1, confusions, wrong-crop pictures → `results/error_analysis/` |
+| `error_analysis_order.py` | reading-order scores by page type, wrong box pairs, label vs MLP vs XY-cut pictures → `results/error_analysis/` |
+
 ### Other folders
 | Folder | What it is |
 |---|---|
 | `notebooks/` | Colab and Kaggle notebooks (`colab_resnet`, `kaggle_resnet`, `kaggle_detector`) |
 | `results/` | merged tables and plots for the report |
+| `REPORTS/` | documents for the faculty: `Project_Report.docx` is the full report (everything, incl. error analysis); `Project_Explanation_for_Faculty_v2.docx` and `Error_Analysis_for_Faculty.docx` are the earlier review documents |
 | `archive/` | earlier work that is no longer used: first evaluation / prediction scripts, the DocLayout-YOLO checkpoint, old detector runs, and the first dataset subset (`dataset_root_old_leaked`, built only from the train split, so its test pages leaked) |

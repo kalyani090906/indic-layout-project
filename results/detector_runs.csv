@@ -1,0 +1,12 @@
+name,model,freeze,aug,imgsz,total_params,trainable_params,epochs_run,best_epoch,val_map50_95,test_precision,test_recall,test_map50,test_map50_95,min_per_epoch,source
+D0_released,yolov10x_indicdlp.pt,0,default,640,31735772,0,,,,0.7538,0.7028,0.7387,0.5551,,runs_det_downloaded/part1
+D1_scratch,yolov8n.yaml,0,default,640,3019038,3019038,40,40,0.1059,0.4446,0.2481,0.2064,0.1212,0.54,runs_det_downloaded/part1
+D2_coco_full,yolov8n.pt,0,default,640,3147966,3147966,40,39,0.231,0.4314,0.3806,0.3445,0.2249,0.55,runs_det_downloaded/part1
+D3_coco_frozen,yolov8n.pt,10,default,640,3147966,1875310,40,40,0.1673,0.3867,0.2886,0.2704,0.1721,0.48,runs_det_downloaded/part1
+D4_doclaynet_full,yolov8n-doclaynet.pt,0,default,640,3019038,3019038,40,40,0.2108,0.5612,0.3311,0.3433,0.2257,0.53,runs_det_downloaded/part1
+D5_doclaynet_frozen,yolov8n-doclaynet.pt,10,default,640,3019038,1746382,40,40,0.1729,0.5555,0.2804,0.287,0.185,0.48,runs_det_downloaded/part1
+D6_v8s_coco_full,yolov8s.pt,0,default,640,11151854,11151854,40,40,0.2491,0.462,0.4171,0.3943,0.2651,0.9,runs_det_downloaded/part1
+A1_none,yolov8n.pt,0,none,640,3147966,3147966,26,16,0.1656,0.3641,0.3278,0.2773,0.1695,0.56,runs_det_downloaded/part2
+A2_noflip,yolov8n.pt,0,noflip,640,3147966,3147966,40,39,0.2352,0.4966,0.4038,0.382,0.2505,0.55,runs_det_downloaded/part2
+A3_nomosaic,yolov8n.pt,0,nomosaic,640,3147966,3147966,40,40,0.2255,0.4377,0.3892,0.3664,0.2371,0.54,runs_det_downloaded/part2
+A4_doc,yolov8n.pt,0,doc,640,3147966,3147966,40,40,0.2403,0.5156,0.398,0.3795,0.2409,0.54,runs_det_downloaded/part2
