@@ -34,3 +34,6 @@ kaggle_detector_upload/
 page_selection/language_thumbs/
 archive/dataset_root_old_leaked/
 archive/runs_old_detector/
+
+REPORTS/
+runs_det_downloaded/
